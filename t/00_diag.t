@@ -10,8 +10,11 @@ my %modules;
 my $post_diag;
 
 $modules{$_} = $_ for qw(
+  Capture::Tiny
+  Data::Section::Pluggable
   ExtUtils::MakeMaker
   FFI::Build::File::Base
+  FFI::Platypus
   File::chdir
   Path::Tiny
   Test2::V0
