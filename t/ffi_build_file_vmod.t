@@ -80,7 +80,7 @@ package V::FFI {
     $ffi->bundle;
     $ffi->mangler(sub ($sym) { return "libfoo__$sym" });
 
-    $ffi->attach(add => ['sint32','sint32'] => 'sint32');
+    $ffi->attach(add => ['i32','i32'] => 'i32');
 }
 
 @@ t/v_ffi.t
