@@ -26,10 +26,10 @@ package FFI::Platypus::Lang::V {
             u16 => 'uint16',
             u32 => 'uint32',
             u64 => 'uint64',
-            i8  => 'int8',
-            i16 => 'int16',
-            i32 => 'int32',
-            i64 => 'int64',
+            i8  => 'sint8',
+            i16 => 'sint16',
+            i32 => 'sint32',
+            i64 => 'sint64',
         };
     }
 
