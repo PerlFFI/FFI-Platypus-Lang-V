@@ -58,7 +58,6 @@ Module {
     dependencies: []
 }
 
-
 @@ ffi/src/libfoo.v
 module libfoo
 
