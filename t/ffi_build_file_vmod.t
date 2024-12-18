@@ -54,7 +54,6 @@ Module {
     name: 'libfoo'
 }
 
-
 @@ ffi/src/libfoo.v
 This will not compile
 
