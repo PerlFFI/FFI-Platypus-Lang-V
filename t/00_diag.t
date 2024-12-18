@@ -13,10 +13,14 @@ $modules{$_} = $_ for qw(
   Capture::Tiny
   Data::Section::Pluggable
   ExtUtils::MakeMaker
+  FFI::Build
   FFI::Build::File::Base
   FFI::Platypus
+  File::Which
   File::chdir
   Path::Tiny
+  PerlX::Maybe
+  PerlX::Maybe::XS
   Test2::V0
   stable
   true

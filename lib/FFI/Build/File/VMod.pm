@@ -11,6 +11,8 @@ package FFI::Build::File::VMod {
     use parent qw( FFI::Build::File::Base );
     use constant default_suffix => '.mod';
     use constant default_encoding => ':utf8';
+    use File::Which qw( which );
+    use PerlX::Maybe qw( maybe );
     use Path::Tiny ();
     use File::chdir;
 
@@ -40,6 +42,9 @@ package FFI::Build::File::VMod {
         my $buildname;
         my $lib;
 
+        my($name) = map { /name:\s*'(.*)'/ ? ($1) : () } $vmod->lines_utf8;
+        die "unable to find name in $vmod" unless defined $name;
+
         if($self->build) {
             $platform = $self->build->platform;
             $buildname = $self->build->buildname;
@@ -48,18 +53,16 @@ package FFI::Build::File::VMod {
             $platform = FFI::Build::Platform->new;
             $buildname = "_build";
 
-            my($name) = map { /name:\s*'(.*)'/ ? ($1) : () } $vmod->lines_utf8;
-            die "unable to find name in $vmod" unless defined $name;
-
             $lib = FFI::Build::File::Library->new(
-                $vmod->parent->child("$name" . scalar($platform->library_suffix))->stringify,
+                $vmod->sibling("$name" . scalar($platform->library_suffix))->stringify,
                 platform => $self->platform,
             );
         }
 
-        return $lib if -f $lib->path && !$lib->needs_rebuild($self->_deps($vmod->parent));
+        if($self->_have_v_compiler) {
 
-        {
+            return $lib if -f $lib->path && !$lib->needs_rebuild($self->_deps($vmod->parent));
+
             my $lib_path = Path::Tiny->new($lib->path)->relative($vmod->parent);
             say "+cd @{[ $vmod->parent ]}";
             local $CWD = $vmod->parent;
@@ -69,6 +72,38 @@ package FFI::Build::File::VMod {
             die "command failed" if $?;
             die "no shared library" unless -f $lib_path;
             say "+cd -";
+
+        } else {
+
+            my $c_source = $vmod->sibling("$name.c");
+            die "module requires v compiler" unless -f $c_source;
+            return $lib if -f $lib->path && !$lib->needs_rebuild($c_source->stringify);
+            require FFI::Build;
+
+            my @args;
+            if($self->build) {
+                foreach my $key (qw( alien buildname cflags export file libs verbose )) {
+                    push @args, $key => $self->build->$key;
+                }
+            } else {
+                push @args,
+                    buildname => $buildname,
+                    file => $lib,
+                ;
+            }
+
+            warn "c_source = $c_source";
+
+            my $bx = FFI::Build->new(
+                $name,
+                source => ["$c_source"],
+                platform => $platform,
+                dir => $vmod->parent->stringify,
+                @args,
+            );
+
+            return $bx->build;
+
         }
 
         return $lib;
@@ -84,6 +119,12 @@ package FFI::Build::File::VMod {
             push @ret, $path->stringify if $path->basename =~ /^(.*\.(v|c|h)|v\.mod)\z/;
         }
         return @ret;
+    }
+
+    sub _have_v_compiler ($self) {
+        return 0 if $ENV{FFI_PLATYPUS_LANG_VMOD_SKIP_V};
+        return 1 if which 'v';
+        return 0;
     }
 
 }
