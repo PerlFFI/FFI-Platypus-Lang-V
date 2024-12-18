@@ -6,7 +6,7 @@ use Capture::Tiny qw( capture_merged );
 use File::Glob qw( bsd_glob );
 use File::Which qw( which );
 
-$ENV{FFI_PLATYPUS_LANG_VMOD_SKIP_V} = 1;
+skip_all 'test requires v compiler' unless which 'v';
 
 my $lib = Path::Tiny->new('lib')->absolute;
 my $root = Path::Tiny->tempdir;
@@ -52,15 +52,18 @@ sub MY::postamble {
 @@ ffi/v.mod
 Module {
     name: 'libfoo'
+    description: 'Gah'
+    version: '0.0.0'
+    license: 'MIT'
+    dependencies: []
 }
 
 
 @@ ffi/src/libfoo.v
-This will not compile
+module libfoo
 
-@@ ffi/libfoo.c
-int libfoo__add(int a, int b) {
-    return a+b;
+pub fn add(a, b i32) i32 {
+    return a + b
 }
 
 @@ lib/V/FFI.pm
@@ -76,11 +79,11 @@ package V::FFI {
 
     our @EXPORT = qw( add );
 
-    my $ffi = FFI::Platypus->new( api => 2 );
+    my $ffi = FFI::Platypus->new( api => 2, lang => 'V' );
     $ffi->bundle;
     $ffi->mangler(sub ($sym) { return "libfoo__$sym" });
 
-    $ffi->attach(add => ['int','int'] => 'int');
+    $ffi->attach(add => ['i32','i32'] => 'i32');
 }
 
 @@ t/v_ffi.t
