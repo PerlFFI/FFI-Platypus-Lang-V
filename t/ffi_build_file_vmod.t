@@ -30,6 +30,25 @@ done_testing;
 
 __DATA__
 
+@@ Makefile.PL
+use strict;
+use warnings;
+use ExtUtils::MakeMaker;
+use FFI::Build::MM;
+
+my $fbmm = FFI::Build::MM->new;
+
+WriteMakefile($fbmm->mm_args(
+    ABSTRACT => 'Perl/V Extension',
+    DISTNAME => 'V-FFI',
+    NAME => "V::FFI",
+    VERSION => '1.00',
+));
+
+sub MY::postamble {
+  $fbmm->mm_postamble;
+}
+
 @@ ffi/v.mod
 Module {
     name: 'libfoo'
