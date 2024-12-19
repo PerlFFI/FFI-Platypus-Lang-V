@@ -10,11 +10,39 @@ package FFI::Platypus::Lang::V {
 
 =head1 SYNOPSIS
 
+V:
+
+ module foo
+ 
+ pub fn add(a, b i32) i32 {
+     return a + b
+ }
+
+Perl:
+
+ use FFI::Platypus 2.00;
+ my $ffi = FFI::Platypus->new( api => 2, lang => 'V', lib => 'foo.so' );
+ $ffi->mangle(sub ($sym) { "foo__$sym" });
+ $ffi->attach( add => ['i32','i32'] => 'i32');
+ 
+ say add(1,2);
+
+Prints:
+
+ 3
+
 =head1 DESCRIPTION
+
+This module provides types and documentation for using the V
+programming language with L<FFI::Platypus>.
 
 =head1 METHODS
 
 =head2 native_type_map
+
+ my $hashref = FFI::Platypus::Lang::V->native_type_map;
+
+Returns a mapping of V primitive types to Platypus types.
 
 =cut
 
@@ -30,7 +58,8 @@ package FFI::Platypus::Lang::V {
             i16 => 'sint16',
             i32 => 'sint32',
             i64 => 'sint64',
+            f32 => 'float',
+            f64 => 'double',
         };
     }
-
 }
