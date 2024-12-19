@@ -34,7 +34,9 @@ Prints:
 =head1 DESCRIPTION
 
 This module provides types and documentation for using the V
-programming language with L<FFI::Platypus>.
+programming language with L<FFI::Platypus>.  For details on
+bundling a V project with your Perl distribution see
+L<FFI::Build::File::VMod>.
 
 =head1 METHODS
 
@@ -43,6 +45,18 @@ programming language with L<FFI::Platypus>.
  my $hashref = FFI::Platypus::Lang::V->native_type_map;
 
 Returns a mapping of V primitive types to Platypus types.
+
+=head1 SEE ALSO
+
+=over 4
+
+=item L<https://vlang.io/>
+
+=item L<FFI::Platypus>
+
+=item L<FFI::Build::File::VMod>
+
+=back
 
 =cut
 
