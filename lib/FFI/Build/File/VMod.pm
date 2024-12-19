@@ -29,9 +29,9 @@ Makefile.PL:
  
  WriteMakefile($fbmm->mm_args(
      ABSTRACT => 'Perl/V Extension',
-     DISTNAME => 'V-FFI',
-     NAME => "V::FFI",
-     VERSION => '1.00',
+     DISTNAME => 'Foo',
+     NAME     => "Foo",
+     VERSION  => '1.00',
  ));
  
  sub MY::postamble {
