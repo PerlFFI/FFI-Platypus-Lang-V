@@ -18,11 +18,64 @@ package FFI::Build::File::VMod {
 
 =head1 SYNOPSIS
 
+Makefile.PL:
+
+ use strict;
+ use warnings;
+ use ExtUtils::MakeMaker;
+ use FFI::Build::MM;
+ 
+ my $fbmm = FFI::Build::MM->new;
+ 
+ WriteMakefile($fbmm->mm_args(
+     ABSTRACT => 'Perl/V Extension',
+     DISTNAME => 'V-FFI',
+     NAME => "V::FFI",
+     VERSION => '1.00',
+ ));
+ 
+ sub MY::postamble {
+   $fbmm->mm_postamble;
+ }
+
+ffi/v.mod:
+
+ Module {
+     name: 'foo'
+     ...
+ }
+
+ffi/foo.v:
+
+ module foo
+ 
+ pub fn add(a, b i32) i32 {
+     return a + b
+ }
+
+lib/Foo.pm:
+
+ use warnings;
+ use 5.020;
+ use experimental qw( signatures );
+ 
+ package Add {
+     use FFI::Platypus 2.00;
+     use Exporter qw( import );
+ 
+     our @EXPORT = qw( add );
+ 
+     my $ffi = FFI::Platypus->new( api => 2, lang => 'V' );
+     $ffi->bundle;
+     $ffi->mangler(sub ($sym) { return "libfoo__$sym" });
+ 
+     $ffi->attach(add => ['i32','i32'] => 'i32');
+ }
+
+
 =head1 DESCRIPTION
 
 =head1 METHODS
-
-=head2 native_type_map
 
 =cut
 
