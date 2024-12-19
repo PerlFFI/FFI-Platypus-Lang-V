@@ -34,7 +34,9 @@ Prints:
 # DESCRIPTION
 
 This module provides types and documentation for using the V
-programming language with [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus).
+programming language with [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus).  For details on
+bundling a V project with your Perl distribution see
+[FFI::Build::File::VMod](https://metacpan.org/pod/FFI::Build::File::VMod).
 
 # METHODS
 
@@ -45,6 +47,12 @@ my $hashref = FFI::Platypus::Lang::V->native_type_map;
 ```
 
 Returns a mapping of V primitive types to Platypus types.
+
+# SEE ALSO
+
+- [https://vlang.io/](https://vlang.io/)
+- [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus)
+- [FFI::Build::File::VMod](https://metacpan.org/pod/FFI::Build::File::VMod)
 
 # AUTHOR
 
