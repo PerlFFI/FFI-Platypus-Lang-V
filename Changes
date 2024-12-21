@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - Bump required Path::Tiny to 0.130 for ->mkdir
 
 0.01      2024-12-18 18:15:08 -0700
   - initial version

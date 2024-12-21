@@ -13,7 +13,7 @@ package FFI::Build::File::VMod {
     use constant default_encoding => ':utf8';
     use File::Which qw( which );
     use PerlX::Maybe qw( maybe );
-    use Path::Tiny ();
+    use Path::Tiny 0.130 ();
     use File::chdir;
 
 =head1 SYNOPSIS
