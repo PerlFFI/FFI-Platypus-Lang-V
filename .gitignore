@@ -2,4 +2,7 @@ FFI-Platypus-Lang-V-*
 /.build/
 *.swp
 
-
+/FFI-Platypus-Lang-V-*
+/.build
+*.old
+*.orig
