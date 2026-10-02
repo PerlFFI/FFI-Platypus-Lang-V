@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.04      2026-10-02 03:33:19 -0600
   - Build V shared libraries with -DNO_EXECUTE_PERMISSION to work around
     a bug in V 0.4.x (fixed in 0.5) that caused a "Cannot allocate
     executable pages" abort with -prod on macOS arm64 (gh#6)
