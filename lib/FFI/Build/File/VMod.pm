@@ -121,7 +121,11 @@ lib/Foo.pm:
             local $CWD = $vmod->parent;
             say "+mkdir -p @{[ $lib_path->parent->mkdir ]}";
             $lib_path->parent->mkdir;
-            $platform->run('v', '-prod', '-shared', -o => "$lib_path", '.');
+            # V calls GC_set_pages_executable(0) before GC_INIT() in main(),
+            # but shared libraries skip that, so on platforms that forbid
+            # PROT_EXEC mappings (macOS arm64) libgc aborts with
+            # "Cannot allocate executable pages".
+            $platform->run('v', '-prod', '-shared', -cflags => '-DNO_EXECUTE_PERMISSION', -o => "$lib_path", '.');
             die "command failed" if $?;
             die "no shared library" unless -f $lib_path;
             say "+cd -";
