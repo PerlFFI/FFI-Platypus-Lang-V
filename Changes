@@ -1,9 +1,9 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
-  - Build V shared libraries with -DNO_EXECUTE_PERMISSION to avoid
-    "Cannot allocate executable pages" abort with -prod on macOS arm64
-    (gh#6)
+  - Build V shared libraries with -DNO_EXECUTE_PERMISSION to work around
+    a bug in V 0.4.x (fixed in 0.5) that caused a "Cannot allocate
+    executable pages" abort with -prod on macOS arm64 (gh#6)
   - Support V 0.5.x: functions must be exported with @[export], and
     sources may no longer live in a src/ directory (gh#6)
 
