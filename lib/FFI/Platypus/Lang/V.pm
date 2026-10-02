@@ -14,6 +14,7 @@ V:
 
  module foo
  
+ @[export: 'foo_add']
  pub fn add(a i32, b i32) i32 {
      return a + b
  }
@@ -22,7 +23,7 @@ Perl:
 
  use FFI::Platypus 2.00;
  my $ffi = FFI::Platypus->new( api => 2, lang => 'V', lib => 'foo.so' );
- $ffi->mangle(sub ($sym) { "foo__$sym" });
+ $ffi->mangle(sub ($sym) { "foo_$sym" });
  $ffi->attach( add => ['i32','i32'] => 'i32');
  
  say add(1,2);

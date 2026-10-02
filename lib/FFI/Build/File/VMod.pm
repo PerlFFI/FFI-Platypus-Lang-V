@@ -49,6 +49,7 @@ ffi/foo.v:
 
  module foo
  
+ @[export: 'foo_add']
  pub fn add(a i32, b i32) i32 {
      return a + b
  }
@@ -67,7 +68,7 @@ lib/Foo.pm:
  
      my $ffi = FFI::Platypus->new( api => 2, lang => 'V' );
      $ffi->bundle;
-     $ffi->mangler(sub ($sym) { return "libfoo__$sym" });
+     $ffi->mangler(sub ($sym) { return "foo_$sym" });
  
      $ffi->attach(add => ['i32','i32'] => 'i32');
  }
