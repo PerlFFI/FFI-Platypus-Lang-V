@@ -1,6 +1,11 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - Build V shared libraries with -DNO_EXECUTE_PERMISSION to avoid
+    "Cannot allocate executable pages" abort with -prod on macOS arm64
+    (gh#6)
+  - Support V 0.5.x: functions must be exported with @[export], and
+    sources may no longer live in a src/ directory (gh#6)
 
 0.02      2024-12-21 04:43:04 -0700
   - Bump required Path::Tiny to 0.130 for ->mkdir
